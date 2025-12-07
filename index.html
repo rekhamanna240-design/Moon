@@ -81,59 +81,94 @@
       box-shadow:0 8px 25px rgba(0,0,0,.2);
       min-width:120px;
     }
+    .game-btn:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,.3);}
     .game-btn.yes{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);color:#fff;}
     .game-btn.no{background:linear-gradient(135deg,#eb3349 0%,#f45c43 100%);color:#fff;}
 
-    /* Navigation buttons */
+    .crying-popup{
+      position:fixed;top:50%;left:50%;
+      transform:translate(-50%,-50%) scale(0);
+      background:#fff;padding:3rem;border-radius:30px;
+      box-shadow:0 20px 60px rgba(0,0,0,.4);
+      z-index:1000;max-width:90%;width:400px;
+      text-align:center;transition:transform .3s ease;
+    }
+    .crying-popup.show{transform:translate(-50%,-50%) scale(1);}
+    .crying-popup .emoji{
+      font-size:5rem;margin-bottom:1rem;
+      animation:shake .5s ease-in-out infinite;
+    }
+    @keyframes shake{
+      0%,100%{transform:rotate(0);}
+      25%{transform:rotate(-10deg);}
+      75%{transform:rotate(10deg);}
+    }
+    .crying-popup h2{color:#333;font-size:1.8rem;margin-bottom:1rem;}
+    .crying-popup p{color:#666;font-size:1.1rem;margin-bottom:2rem;}
+    .popup-btn{
+      background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+      color:#fff;border:none;padding:1rem 2.5rem;
+      font-size:1.1rem;font-weight:600;border-radius:25px;
+      cursor:pointer;margin:.5rem;
+    }
+
     .navigation{
       position:fixed;
       right:1.5rem;
       bottom:2rem;
       display:flex;
       flex-direction:column;
-      gap:0.6rem;
+      gap:1rem;
       z-index:100;
     }
     .nav-btn{
-      border:none;
-      border-radius:999px;
-      padding:0.7rem 1.3rem;
-      font-size:0.9rem;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:0 8px 25px rgba(0,0,0,.25);
-      color:#fff;
-      min-width:110px;
+      background:rgba(255,255,255,.3);
+      backdrop-filter:blur(10px);
+      border:2px solid rgba(255,255,255,.5);
+      color:#fff;width:45px;height:45px;
+      border-radius:50%;font-size:1.3rem;
+      cursor:pointer;transition:all .3s ease;
+      display:flex;align-items:center;justify-content:center;
     }
-    .nav-forward{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);}
-    .nav-back{background:linear-gradient(135deg,#eb3349 0%,#f45c43 100%);}
-    .nav-btn:hover{transform:translateY(-2px);}
+    .nav-btn:hover{background:rgba(255,255,255,.5);transform:scale(1.1);}
 
     .page-indicator{
       position:fixed;top:2rem;right:2rem;
       background:rgba(255,255,255,.3);
+      backdrop-filter:blur(10px);
       padding:.5rem 1rem;border-radius:20px;
       color:#fff;font-weight:600;z-index:100;
     }
 
+    .heart-animation{
+      font-size:clamp(3rem,12vw,6rem);
+      animation:heartbeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartbeat{
+      0%,100%{transform:scale(1);}
+      25%{transform:scale(1.15);}
+      50%{transform:scale(1);}
+    }
+
     .music-toggle{
       position:fixed;
-      top:1rem;left:1rem;
+      top:1rem;
+      left:1rem;
       background:rgba(255,255,255,.3);
       border:2px solid rgba(255,255,255,.6);
-      padding:.5rem 1rem;border-radius:999px;
-      font-size:.9rem;color:#fff;
+      backdrop-filter:blur(10px);
+      color:#fff;border-radius:999px;
+      padding:.5rem 1rem;font-size:.9rem;
       cursor:pointer;z-index:110;
     }
   </style>
 </head>
 <body>
-
-  <audio id="bgMusic" src=https://files.catbox.moe/a7389t.mp3
- loop></audio>
+  <!-- romantic music (replace src with your hosted mp3 link) -->
+  <audio id="bgMusic" src=https://files.catbox.moe/vi0dyh.mp3 loop></audio>
   <button class="music-toggle" onclick="toggleMusic()">🎵 Music</button>
 
-  <!-- PAGES BELOW -->
+  <!-- Pages -->
   <div class="page page1 active" data-page="1">
     <div class="emoji">🎉</div>
     <h1>Happy Birthday, My Love</h1>
@@ -143,7 +178,7 @@
   <div class="page page2" data-page="2">
     <div class="emoji">💖</div>
     <h1>You’re My Favourite Human</h1>
-    <p class="subtitle">Your smile is my weakness and your voice is my peace.</p>
+    <p class="subtitle">Out of everyone, my heart chose you and then refused to shut up about you. Your smile = my weakness.</p>
   </div>
 
   <div class="page page3" data-page="3">
@@ -159,14 +194,14 @@
   <div class="page page4" data-page="4">
     <div class="emoji">🌟</div>
     <h1>You Make Me Better</h1>
-    <p class="subtitle">You make me calmer, softer and more stupid in love. 🏡</p>
+    <p class="subtitle">You don’t just make me happy, you make me calmer, softer and more stupid in love. You feel like home. 🏡</p>
   </div>
 
   <div class="page page5" data-page="5">
     <div class="game-container">
-      <div class="question">So… you're stuck with me forever, right? 💍😌</div>
+      <div class="question">So… you’re stuck with me forever, right? 💍😌</div>
       <div class="button-container">
-        <button class="game-btn yes" onclick="nextPage()">Forever 💘</button>
+        <button class="game-btn yes" onclick="nextPage()">Forever &amp; ever 💘</button>
         <button class="game-btn no" onclick="showCryingPopup(2)">Let me think… 😅</button>
       </div>
     </div>
@@ -175,14 +210,14 @@
   <div class="page page6" data-page="6">
     <div class="emoji">🌈</div>
     <h1>My Future = You</h1>
-    <p class="subtitle">Trips, late nights, cuddles, kisses — I want it all with you.</p>
+    <p class="subtitle">Trips, late nights, naps, fights, cuddles, overthinking, then “sorry baby 😚” — I want all of that only with you.</p>
   </div>
 
   <div class="page page7" data-page="7">
     <div class="game-container">
       <div class="question">Do I make you happy, or should I bite you more? 😼💋</div>
       <div class="button-container">
-        <button class="game-btn yes" onclick="nextPage()">You do 😍</button>
+        <button class="game-btn yes" onclick="nextPage()">You already do 😍</button>
         <button class="game-btn no" onclick="showCryingPopup(3)">Maybe bite more 😬</button>
       </div>
     </div>
@@ -191,9 +226,9 @@
   <div class="page page8" data-page="8">
     <h1>Us. My Favourite Picture. 📸</h1>
     <div class="photo-frame">
-      <img src="https://image2url.com/images/1765042951854-13889f75-41d3-44e8-be05-2e1f1e525ab5.jpeg"  alt="Us together">
+      <img src="https://image2url.com/images/1765042951854-13889f75-41d3-44e8-be05-2e1f1e525ab5.jpeg" alt="Us together">
     </div>
-    <p class="subtitle">I could stare at this and still miss you. 💕</p>
+    <p class="subtitle">I could stare at this and still miss you. Same smile, same eyes, same girl I’m completely gone for. 💕</p>
   </div>
 
   <div class="page page9" data-page="9">
@@ -209,58 +244,56 @@
   <div class="page page10" data-page="10">
     <div class="emoji">✨</div>
     <h1>Our Story So Far</h1>
-    <p class="subtitle">From randomness to “I can’t live without you.” Our movie is crazy. 🎬❤️</p>
+    <p class="subtitle">From random moments to “I can’t imagine a day without you” — and this is just the trailer. Our movie is going to be crazy. 🎬❤️</p>
   </div>
 
   <div class="page page11" data-page="11">
     <div class="game-container">
       <div class="question">After this, can I get birthday cuddles? 🥺🎁</div>
       <div class="button-container">
-        <button class="game-btn yes" onclick="nextPage()">Cuddles 🤍</button>
-        <button class="game-btn no" onclick="showCryingPopup(5)">Pending 😴</button>
+        <button class="game-btn yes" onclick="nextPage()">Cuddles approved 🤍</button>
+        <button class="game-btn no" onclick="showCryingPopup(5)">Application pending 😴</button>
       </div>
     </div>
   </div>
 
   <div class="page page12" data-page="12">
-    <div class="emoji">❤️</div>
+    <div class="heart-animation">❤️</div>
     <h1>Happy Birthday, My Person</h1>
-    <p class="subtitle">I'm not letting you go. Ever. 💘</p>
+    <p class="subtitle">I love you in the loud ways, the soft ways, the chaotic “I’ll bite you” ways, and the quiet “I’ll stay” ways. Thank you for existing and for choosing me. I’m not letting you go. Ever. 💘</p>
   </div>
 
   <!-- Popup -->
   <div class="crying-popup" id="cryingPopup">
+    <div class="emoji" id="popupEmoji">😭</div>
     <h2 id="popupTitle">Oh no!</h2>
     <p id="popupMessage">Are you sure?</p>
-    <button class="popup-btn" onclick="hideCryingPopup()">Okay fine 😚</button>
+    <button class="popup-btn" onclick="hideCryingPopup()">Okay fine, I love you 😚</button>
   </div>
 
   <!-- Navigation -->
   <div class="page-indicator"><span id="currentPage">1</span> / 12</div>
-
-  <div class="navigation">
-    <button class="nav-btn nav-forward" onclick="nextPage()">Go Forward ⬆</button>
-    <button class="nav-btn nav-back" onclick="prevPage()">Come Previous ⬇</button>
+  <div class="navigation" id="navControls">
+    <button class="nav-btn" onclick="prevPage()">←</button>
+    <button class="nav-btn" onclick="nextPage()">→</button>
   </div>
 
   <script>
     let currentPage = 1;
     const totalPages = 12;
+    const questionPages = [3,5,7,9,11];
 
-    /* MCQ pages */
-    const questionPages = [3, 5, 7, 9, 11];
-
-    /* crying messages */
     const cryingMessages = {
-      1:{title:'EXCUSE ME?!',message:'You don’t know how obsessed I am? 🥺💔'},
-      2:{title:'“Let me think”?',message:'No thinking. Only yes. 🥺❤️'},
-      3:{title:'Bite more?',message:'Okay but don’t cry later 😼💕'},
-      4:{title:'Top 10?!',message:'I’m trying to be #1 😭👑'},
-      5:{title:'Too tired?',message:'Fine, sleep in my arms 😭✨'}
+      1:{emoji:'😭😭😭',title:'EXCUSE ME?!',message:'You don’t know how obsessed I am? I miss you every few minutes and want to bite your cheeks. 🥺💔'},
+      2:{emoji:'💔😢',title:'“Let me think”?',message:'No thinking. Only “yes, I’m yours forever”. That’s the rule. 🥺❤️'},
+      3:{emoji:'😼💋',title:'Bite more, huh?',message:'Okay, but don’t complain when I’m attached like a koala. 🐨💕'},
+      4:{emoji:'😢👑',title:'Top 10?!',message:'I am literally trying to be your #1. Don’t break my dramatic heart. 🥺👑'},
+      5:{emoji:'🥺💤',title:'Too tired?',message:'Fine, I’ll just curl around you and you can sleep in my arms. 😭✨'}
     };
 
     function showCryingPopup(num){
       const p = cryingMessages[num];
+      document.getElementById('popupEmoji').textContent = p.emoji;
       document.getElementById('popupTitle').textContent = p.title;
       document.getElementById('popupMessage').textContent = p.message;
       document.getElementById('cryingPopup').classList.add('show');
@@ -269,42 +302,65 @@
       document.getElementById('cryingPopup').classList.remove('show');
     }
 
-    /* Update page + hide nav on MCQ */
-    function showPage(num){
-      if(num<1||num>totalPages)return;
-
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelector(`.page[data-page="${num}"]`).classList.add('active');
-
-      currentPage = num;
-      document.getElementById('currentPage').textContent = num;
-
-      const nav = document.querySelector('.navigation');
-      if(questionPages.includes(num)){
-        nav.style.display = "none";
-      } else {
-        nav.style.display = "flex";
+    function updateNavigation(pageNum){
+      const nav = document.getElementById('navControls');
+      if(!nav) return;
+      if(questionPages.includes(pageNum)){
+        nav.style.display = 'none';
+      }else{
+        nav.style.display = 'flex';
       }
     }
 
+    function showPage(pageNum){
+      if(pageNum<1 || pageNum>totalPages) return;
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      document.querySelector(`.page[data-page="${pageNum}"]`).classList.add('active');
+      document.getElementById('currentPage').textContent = pageNum;
+      currentPage = pageNum;
+      updateNavigation(pageNum);
+    }
+    let musicStartedByArrow = false;
+
+function nextPage() {
+    if (!musicStartedByArrow) {
+        music.play().catch(()=>{});
+        musicStartedByArrow = true;
+    }
+    if (currentPage < totalPages) {
+        showPage(currentPage + 1);
+    }
+}
+
+
+    // keyboard
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight') nextPage();
+      if(e.key==='ArrowLeft') prevPage();
+      if(e.key==='Escape') hideCryingPopup();
+    });
+
+    // swipe
+    let touchStartX=0;
+    document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;});
+    document.addEventListener('touchend',e=>{
+      const x=e.changedTouches[0].screenX;
+      if(x<touchStartX-50) nextPage();
+      if(x>touchStartX+50) prevPage();
+    });
+
+    // music
     const music = document.getElementById('bgMusic');
     let musicStarted = false;
-
-    function nextPage(){
-      if(!musicStarted){
-        music.play().catch(()=>{});
-        musicStarted = true;
-      }
-      if(currentPage<totalPages){
-        showPage(currentPage+1);
-      }
+    function startMusicOnce(){
+      if(musicStarted) return;
+      music.play().catch(()=>{});
+      musicStarted = true;
+      document.removeEventListener('click',startMusicOnce);
+      document.removeEventListener('touchstart',startMusicOnce);
     }
-
-    function prevPage(){
-      if(currentPage>1){
-        showPage(currentPage-1);
-      }
-    }
+    document.addEventListener('click',startMusicOnce);
+    document.addEventListener('touchstart',startMusicOnce);
 
     function toggleMusic(){
       if(music.paused){
@@ -314,24 +370,9 @@
       }
     }
 
-    /* Keyboard */
-    document.addEventListener('keydown',e=>{
-      if(e.key==='ArrowRight')nextPage();
-      if(e.key==='ArrowLeft')prevPage();
-    });
-
-    /* Swipe */
-    let startX=0;
-    document.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;});
-    document.addEventListener('touchend',e=>{
-      let endX=e.changedTouches[0].clientX;
-      if(endX<startX-50)nextPage();
-      if(endX>startX+50)prevPage();
-    });
-
-    showPage(1);
+    // init
+    updateNavigation(currentPage);
   </script>
 </body>
 </html>
-
 
