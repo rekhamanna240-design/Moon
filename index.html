@@ -312,13 +312,24 @@
       document.getElementById('cryingPopup').classList.remove('show');
     }
 
-    function showPage(pageNum){
-      if(pageNum<1 || pageNum>totalPages) return;
-      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-      document.querySelector(`.page[data-page="${pageNum}"]`).classList.add('active');
-      document.getElementById('currentPage').textContent = pageNum;
-      currentPage = pageNum;
+    function showPage(pageNum) {
+    if (pageNum < 1 || pageNum > totalPages) return;
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelector(`.page[data-page="${pageNum}"]`).classList.add('active');
+
+    document.getElementById('currentPage').textContent = pageNum;
+    currentPage = pageNum;
+
+    // hide nav on MCQ pages
+    const nav = document.querySelector('.navigation');
+    if (questionPages.includes(pageNum)) {
+        nav.style.display = "none";
+    } else {
+        nav.style.display = "flex";
     }
+}
+
 
     // music
     const music = document.getElementById('bgMusic');
@@ -369,4 +380,5 @@
   </script>
 </body>
 </html>
+
 
